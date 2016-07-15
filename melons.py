@@ -14,6 +14,11 @@ class AbstractMelonOrder(object):
         self.order_type = order_type
         self.tax = tax
 
+        #if the qty exceeds we raise the exception class
+        if self.qty > 100:
+            raise TooManyMelonsError
+
+
     def get_base_price(self):
         base_price = randint(5,9)
 
@@ -33,6 +38,7 @@ class AbstractMelonOrder(object):
         """Set shipped to true."""
 
         self.shipped = True
+
 
 
 
@@ -73,11 +79,13 @@ class GovernmentMelonOrder(AbstractMelonOrder):
     """for government orders and security inspection"""
 
     def __init__(self, species, qty):
-
         super(GovernmentMelonOrder, self).__init__(species, qty, "government", 0)
         self.passed_inspection = False
 
     def mark_inspection(self, passed):
         """method that takes boolean value for passed = True or False"""
-
         self.passed_inspection = passed
+
+#ValueError is built-in for python 
+class TooManyMelonsError(ValueError):
+    """Raises TooManyMelonsError when someone attempts to create an order with more than 100 melons"""
