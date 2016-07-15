@@ -1,4 +1,5 @@
 """This file should have our order classes in it."""
+from random import randint
 
 class AbstractMelonOrder(object):
     """Parent class, to help with repetitive code"""
@@ -13,12 +14,17 @@ class AbstractMelonOrder(object):
         self.order_type = order_type
         self.tax = tax
 
-    def get_total(self):
-        """Calculate price."""
+    def get_base_price(self):
+        base_price = randint(5,9)
 
-        base_price = 5
         if self.species == 'Christmas Melon':
             base_price = base_price * 1.5
+
+        return base_price
+
+    def get_total(self):
+        """Calculate price."""
+        base_price = self.get_base_price()
 
         total = ((1 + self.tax) * self.qty * base_price)
         return total
@@ -48,10 +54,7 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
     def get_total(self):
         """Calculate total price"""
-
-        base_price = 5
-        if self.species == 'Christmas Melon':
-            base_price = base_price * 1.5
+        base_price = super(InternationalMelonOrder, self).get_base_price()
 
         flat_fee = 0
         if self.qty < 10:
@@ -76,5 +79,5 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
     def mark_inspection(self, passed):
         """method that takes boolean value for passed = True or False"""
-        
+
         self.passed_inspection = passed
