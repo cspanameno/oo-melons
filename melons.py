@@ -71,8 +71,10 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty):
 
-        super(GovernmentMelonOrder, self).__init__(species, qty, "domestic", 0)
+        super(GovernmentMelonOrder, self).__init__(species, qty, "government", 0)
         self.passed_inspection = False
 
-    def mark_passed(self):
-        self.passed_inspection = True
+    def mark_inspection(self, passed):
+        """method that takes boolean value for passed = True or False"""
+        
+        self.passed_inspection = passed
